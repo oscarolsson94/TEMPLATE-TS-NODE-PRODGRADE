@@ -4,7 +4,7 @@ import config from "config";
 const privateKey = config.get<string>("privateKey");
 const publicKey = config.get<string>("publicKey");
 
-const signJwt = (
+export const signJwt = (
   object: Object,
   keyName: "accessTokenPrivateKey" | "refreshTokenPrivateKey",
   options?: jwt.SignOptions | undefined
@@ -20,7 +20,7 @@ const signJwt = (
   });
 };
 
-const verifyJwt = (
+export const verifyJwt = (
   token: string,
   keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
 ) => {
