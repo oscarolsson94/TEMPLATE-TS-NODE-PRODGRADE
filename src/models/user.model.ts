@@ -2,13 +2,16 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "config";
 
-export interface UserDocument extends mongoose.Document {
+export interface UserInput {
   email: string;
   name: string;
   password: string;
+}
+
+export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  comparePassword(candidatePassword: string): Promise<Boolean>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -23,10 +26,10 @@ const userSchema = new mongoose.Schema(
 );
 
 /* hashing password when saving a user for the first time in DB */
-userSchema.pre("save", async (next) => {
-  let user = this as UserDocument;
+userSchema.pre("save", async function (next) {
+  const user = this as UserDocument;
 
-  if (!user?.isModified("password")) return next();
+  if (!user.isModified("password")) return next();
 
   const salt = await bcrypt.genSalt(config.get<number>("saltWorkFactor"));
 
@@ -38,9 +41,9 @@ userSchema.pre("save", async (next) => {
 });
 
 /* Creating method to compare provided password with users password */
-userSchema.methods.comparePassword = (
+userSchema.methods.comparePassword = function (
   candidatePassword: string
-): Promise<boolean> => {
+): Promise<boolean> {
   const user = this as UserDocument;
 
   return bcrypt.compare(candidatePassword, user.password).catch(() => false);

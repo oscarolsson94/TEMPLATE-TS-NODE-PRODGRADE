@@ -10,7 +10,7 @@ export const createUserHandler = async (
 ) => {
   try {
     const user = await createUser(req.body);
-    return res.send(omit(user.toJSON(), "password"));
+    return res.send(omit(user, "password"));
   } catch (error: any) {
     log.error(error);
     /* 409 = conflict - if function throws it has violated unique restrictions*/
