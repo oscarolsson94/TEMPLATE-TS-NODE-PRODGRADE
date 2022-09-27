@@ -17,4 +17,6 @@ export const routes = (app: Express) => {
     validateResource(createSessionSchema),
     createSessionHandler
   );
+
+  app.get("/api/sessions", getUserSessionsHandler);
 };
