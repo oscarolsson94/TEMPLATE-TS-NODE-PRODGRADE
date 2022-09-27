@@ -1,5 +1,8 @@
 import { Express, Request, Response } from "express";
-import { createSessionHandler } from "./controllers/session.controller";
+import {
+  createSessionHandler,
+  getUserSessionsHandler,
+} from "./controllers/session.controller";
 import { createUserHandler } from "./controllers/user.controller";
 import { validateResource } from "./middleware/validateResource";
 import { createSessionSchema } from "./schemas/session.schema";

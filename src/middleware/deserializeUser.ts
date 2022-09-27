@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { get } from "lodash";
+import { verifyJwt } from "../utils/jwt.utils";
 
 const deserializeUser = (req: Request, res: Response, next: NextFunction) => {
   /* get auth token from header */
@@ -7,4 +8,13 @@ const deserializeUser = (req: Request, res: Response, next: NextFunction) => {
     /^Bearer\s/,
     ""
   );
+
+  if (!accessToken) return next();
+
+  const { decoded, expired } = verifyJwt(accessToken);
+
+  if (decoded) {
+    res.locals.user = decoded;
+    return next();
+  }
 };
