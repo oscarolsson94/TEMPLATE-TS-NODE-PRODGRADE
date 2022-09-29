@@ -1,6 +1,7 @@
 import { Express, Request, Response } from "express";
 import {
   createSessionHandler,
+  deleteSessionHandler,
   getUserSessionsHandler,
 } from "./controllers/session.controller";
 import { createUserHandler } from "./controllers/user.controller";
