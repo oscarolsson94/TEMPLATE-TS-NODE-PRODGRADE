@@ -5,7 +5,7 @@ export const requireUser = (
   res: Response,
   next: NextFunction
 ) => {
-  const user = req.locals.user;
+  const user = res.locals.user;
 
   if (!user) return res.sendStatus(403);
 
